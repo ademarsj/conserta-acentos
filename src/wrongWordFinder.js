@@ -8,9 +8,7 @@ function getLastDelimiterIndex(line) {
 
   for(currChar of NON_ALPHABETICAL_CHARS) {
     currIndex = String(line).lastIndexOf(currChar);
-    if (currIndex >= 0) {
-      // console.log(`LAST Achou "${currChar}" em ${currIndex}`);
-    }
+
     if(currIndex >= 0 && currIndex > lastIndexFound) {
       lastIndexFound = currIndex;
     }
@@ -22,13 +20,10 @@ function getLastDelimiterIndex(line) {
 function getFirstDelimiterIndex(line) {
   let firstIndexFound = 999;
   line = line.trim();
-  // console.log(`line == ${line}`);
   
   for(currChar of NON_ALPHABETICAL_CHARS) {
     currIndex = String(line).indexOf(currChar)
-    if (currIndex >= 0) {
-      // console.log(`Achou "${currChar}" em ${currIndex}`);
-    }
+
     if(currIndex >= 0 && currIndex < firstIndexFound) {
       firstIndexFound = currIndex;
     }
