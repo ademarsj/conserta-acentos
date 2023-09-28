@@ -1,7 +1,7 @@
-const { createDictionaryBreakpoints } = require('./dictionary');
+const { createDictionaryBookmarks } = require('./dictionaryBookmarks');
 const { getMisspelledWords } = require('./readfile');
 
-// createDictionaryBreakpoints();
+// createDictionaryBookmarks();
 
 
 async function doIt() {

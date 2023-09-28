@@ -16,7 +16,7 @@ function getNextRegexpObject(currLetter) {
 }
 
 
-function createDictionaryBreakpoints() {
+function createDictionaryBookmarks() {
   //open only in "read" mode
   fs.open(dictionaryPath, 'r', async (err, fd) => {
   
@@ -95,5 +95,5 @@ function saveBookmarks(bookmarkObject) {
 }
 
 module.exports = {
-  createDictionaryBreakpoints,
+  createDictionaryBookmarks,
 }
