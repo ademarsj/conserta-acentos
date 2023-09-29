@@ -9,8 +9,5 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "simple-spellchecker": "^1.0.2"
-  }
+  "license": "ISC"
 }
