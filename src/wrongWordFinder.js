@@ -81,4 +81,5 @@ function findMisspelledWordIfExists(currString, arrayMisspeledWords) {
 
 module.exports = {
   findMisspelledWordIfExists,
+  ROTTEN_CHAR
 }

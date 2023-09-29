@@ -1,10 +1,11 @@
 const fs = require('fs');
 const path = require('path');
+const readline = require('readline');
 
 const BUFFER_BYTES_SYZE = 64;
 
-const dictionaryPath = path.resolve(__dirname, 'assets','pt-BR.dic');
-
+const DICTIONARY_FILE_PATH = path.resolve(__dirname, 'assets','pt-BR.dic');
+const BOOKMARK_PATH = path.resolve(__dirname, 'assets', 'bookmarks.txt');
 
 function getNextRegexpObject(currLetter) {
   let newLetter = String.fromCharCode((String(currLetter).charCodeAt(0) + 1)); //122 = 'z'
@@ -18,11 +19,11 @@ function getNextRegexpObject(currLetter) {
 
 function createDictionaryBookmarks() {
   //open only in "read" mode
-  fs.open(dictionaryPath, 'r', async (err, fd) => {
+  fs.open(DICTIONARY_FILE_PATH, 'r', async (err, fd) => {
   
     if (err) {
       throw {
-        msg: `Error at opening dictionary searching in: ${dictionaryPath}`,
+        msg: `Error at opening dictionary searching in: ${DICTIONARY_FILE_PATH}`,
         error: err
       } 
     }
@@ -33,7 +34,7 @@ function createDictionaryBookmarks() {
     };
    
     try {
-      fileStatus = fs.statSync(dictionaryPath);
+      fileStatus = fs.statSync(DICTIONARY_FILE_PATH);
       fileSize = fileStatus.size;
 
       currRegexp = getNextRegexpObject('a');
@@ -78,13 +79,11 @@ function readChunk(fd, positionOffset) {
 }
 
 function saveBookmarks(bookmarkObject) {
-  const destFilePath = path.resolve(__dirname, 'assets', 'bookmarks.txt');
-  
-  if (fs.existsSync(destFilePath)) {
-    fs.rmSync(destFilePath);
+  if (fs.existsSync(BOOKMARK_PATH)) {
+    fs.rmSync(BOOKMARK_PATH);
   }
 
-  const writeStream = fs.createWriteStream(destFilePath, {
+  const writeStream = fs.createWriteStream(BOOKMARK_PATH, {
     encoding: 'utf-8',
     flags: 'a' //append
   });
@@ -94,6 +93,74 @@ function saveBookmarks(bookmarkObject) {
   });
 }
 
+function getBookmarks() {
+  return new Promise((resolve, reject) => {
+    try {
+      let dictionaryBookmarks = [];
+  
+      const rl = readline.createInterface({
+        input: fs.createReadStream(BOOKMARK_PATH),
+        crlfDelay: Infinity
+      });
+      
+      rl.on('line', (currLine) => {
+        if(currLine.trim()) {
+          let currBookmark = currLine.split('=');
+          dictionaryBookmarks[currBookmark[0]] = currBookmark[1];
+        }
+      });
+      
+      rl.on('close', () => {
+        resolve(dictionaryBookmarks);
+      });
+    } 
+    catch (err) {
+      reject({
+        msg: `Error at loading bookmarks...`,
+        error: err
+      });
+    }
+  })
+}
+
+function getWordsByBookmark(initialBookmark, finalBookmark) {
+
+  return new Promise((resolve, reject) => {
+    initialBookmark = Number(initialBookmark);
+    finalBookmark = Number(finalBookmark);
+    
+      fs.open(DICTIONARY_FILE_PATH, 'r', async (err, fd) => {
+      
+        if (err) {
+          throw {
+            msg: `{getWordsByBookmark} Error at opening dictionary searching in: ${DICTIONARY_FILE_PATH}`,
+            error: err
+          } 
+        }
+       
+        try {
+          let positionOffset = initialBookmark;
+          let currText = '';
+    
+          while ((positionOffset) < (finalBookmark + BUFFER_BYTES_SYZE)) {
+            currText += await readChunk(fd, positionOffset); 
+            positionOffset += BUFFER_BYTES_SYZE;
+          }
+          resolve(currText);
+        }
+        catch(err) {
+          reject({
+            msg: `Error at reading dictionary file`,
+            error: err
+          }) 
+        }
+      });
+  });
+}
+
+
 module.exports = {
   createDictionaryBookmarks,
+  getBookmarks,
+  getWordsByBookmark
 }
