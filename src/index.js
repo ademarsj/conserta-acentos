@@ -3,7 +3,7 @@ const { getMisspelledWords, locateAndReplaceMisspelledWords } = require('./handl
 const { checkGrammar } = require('./dictionary');
 
 async function doIt() {
-  // await createDictionaryBookmarks();
+  await createDictionaryBookmarks();
   let misspeledWords = await getMisspelledWords();
   const wordsWithSuggestions = await checkGrammar(misspeledWords);
 

@@ -3,8 +3,8 @@ const fs = require('fs');
 const readline = require('readline');
 const { findMisspelledWordIfExists, ROTTEN_CHAR } = require('./wrongWordFinder');
 
-const rottenFilePath = path.resolve(__dirname, 'assets/', 'rotten_file.txt');
-const newFile = path.resolve(__dirname, 'assets/', 'fixed_file.txt');
+const ROTTEN_FILE_PATH = path.resolve(__dirname, 'assets/', 'rotten_file.txt');
+const OUTPUT_PATH = path.resolve(__dirname, '..', 'output/', 'fixed_file.txt');
 
 function getMisspelledWords() {
   return new Promise((resolve, reject) => {
@@ -14,7 +14,7 @@ function getMisspelledWords() {
       console.log('File reading process started...');
   
       const rl = readline.createInterface({
-        input: fs.createReadStream(rottenFilePath),
+        input: fs.createReadStream(ROTTEN_FILE_PATH),
         crlfDelay: Infinity
       });
       
@@ -37,16 +37,37 @@ function getMisspelledWords() {
   });
 }
 
+function createFileIfNotExists(currPath) {
+  try {
+    if(fs.existsSync(currPath)) {
+      console.log(`File at ${currPath} already exists...`)
+    } else {
+      try {
+        fs.openSync(currPath, 'w');
+        
+      } catch (error) {
+        console.log('Ceta === ', error);
+      }
+    }
+  } catch(err) {
+    throw {
+      msg: `Error at {createFileIfNotExists}`,
+      error: err
+    }
+  }
+}
+
 function locateAndReplaceMisspelledWords(wordsWithSuggestions) {
   return new Promise((resolve, reject) => {
     try {
+      createFileIfNotExists(OUTPUT_PATH);
 
-      const writeFile = fs.createWriteStream(newFile, {
+      const writeFile = fs.createWriteStream(OUTPUT_PATH, {
         encoding: 'utf-8',
       })
       
       const rl = readline.createInterface({
-        input: fs.createReadStream(rottenFilePath),
+        input: fs.createReadStream(ROTTEN_FILE_PATH),
         crlfDelay: Infinity
       });
       
@@ -72,7 +93,7 @@ function locateAndReplaceMisspelledWords(wordsWithSuggestions) {
       
       rl.on('close', () => {
         resolve(true);
-        console.log('---------------------- Finalizado ----------------------')
+        console.log('---------------------- Done ----------------------')
       });
     } 
     catch (err) {

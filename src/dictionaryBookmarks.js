@@ -16,7 +16,6 @@ function getNextRegexpObject(currLetter) {
   };
 }
 
-
 async function createDictionaryBookmarks() {
   return new Promise((resolve, reject) => {
     //open only in "read" mode
@@ -67,7 +66,6 @@ async function createDictionaryBookmarks() {
 }
 
 function readChunk(fd, positionOffset) {
-
   let destBuffer = Buffer.alloc(BUFFER_BYTES_SYZE);
 
   return new Promise((resolve, reject) => {
@@ -78,7 +76,7 @@ function readChunk(fd, positionOffset) {
         resolve(destBuffer.toString('utf-8'));
       }
     });
-  })
+  });
 }
 
 async function saveBookmarks(bookmarkObject) {
@@ -97,7 +95,7 @@ async function saveBookmarks(bookmarkObject) {
     });
     
     resolve(true);
-  })
+  });
 }
 
 function getBookmarks() {
@@ -127,17 +125,15 @@ function getBookmarks() {
         error: err
       });
     }
-  })
+  });
 }
 
 function getWordsByBookmark(initialBookmark, finalBookmark) {
-
   return new Promise((resolve, reject) => {
     initialBookmark = Number(initialBookmark);
     finalBookmark = Number(finalBookmark);
     
       fs.open(DICTIONARY_FILE_PATH, 'r', async (err, fd) => {
-      
         if (err) {
           throw {
             msg: `{getWordsByBookmark} Error at opening dictionary searching in: ${DICTIONARY_FILE_PATH}`,
