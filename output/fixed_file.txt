@@ -4,7 +4,7 @@ A funcionalidade de impressão também passou por melhorias, proporcionando uma 
 
 Atualmente, há uma opção para restringir o acesso a determinadas funcionalidades, garantindo mais segurança e controle sobre o sistema. Somente usuários autorizados terão permissão para acessar e utilizar essas funcionalidades. A comunicação elétrica entre os dispositivos foi melhorada, garantindo uma integração mais eficaz.
 
-No que diz respeito à legislação e tributaç�o, foram feitas correções para garantir a conformidade com as normas vigentes. A classificação de transações e a atribuição de códigos CST foram revisadas para refletir as atualizações na legislação. Além disso, a informação sobre a possibilidade de declaração de Duplicata foi incluída no sistema, proporcionando mais opções para os usuários.
+No que diz respeito à legislação e tributação, foram feitas correções para garantir a conformidade com as normas vigentes. A classificação de transações e a atribuição de códigos CST foram revisadas para refletir as atualizações na legislação. Além disso, a informação sobre a possibilidade de declaração de Duplicata foi incluída no sistema, proporcionando mais opções para os usuários.
 
 José, um dos usuários do sistema, expressou satisfação com as melhorias implementadas. Ele destacou que há agora uma maior agilidade na transmissão de dados e na geração de relatórios. As mudanças também tornaram possível uma melhor gestão de crédito e um processo mais eficiente de razão de transações.
 
