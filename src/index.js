@@ -1,3 +1,4 @@
+require('./constants');
 const { createDictionaryBookmarks } = require('./dictionaryBookmarks');
 const { getMisspelledWords, locateAndReplaceMisspelledWords } = require('./handleRottenFile');
 const { checkGrammar } = require('./dictionary');

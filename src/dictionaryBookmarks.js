@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const readline = require('readline');
+const {BREAK_LINE_CHAR} = require('./constants');
 
 const BUFFER_BYTES_SYZE = 64;
 
@@ -9,7 +10,7 @@ const BOOKMARK_PATH = path.resolve(__dirname, 'assets', 'bookmarks.txt');
 
 function getNextRegexpObject(currLetter) {
   let newLetter = String.fromCharCode((String(currLetter).charCodeAt(0) + 1)); //122 = 'z'
-  let regexpPattern = `\\n${newLetter}.*\\n`;
+  let regexpPattern = `${BREAK_LINE_CHAR}${newLetter}.*`;
   return {
     letter: newLetter,
     regexp: new RegExp(regexpPattern,'gi')

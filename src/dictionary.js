@@ -1,3 +1,4 @@
+const { BREAK_LINE_CHAR } = require('./constants');
 const { getBookmarks, getWordsByBookmark } = require('./dictionaryBookmarks');
 const { ROTTEN_CHAR } = require('./wrongWordFinder');
 
@@ -8,7 +9,7 @@ async function getSuggestions(word, wordsToSearch) {
     let regexpForWord = createRegexpByWord(word);
 
     let suggestions = [];
-    wordsToSearch.split('\n').forEach(item => {
+    wordsToSearch.split(BREAK_LINE_CHAR).forEach(item => {
       if(item.match(regexpForWord)) {
         suggestions.push(item);
       }
