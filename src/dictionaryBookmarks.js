@@ -1,16 +1,13 @@
+const {breakLineSingleton, DICTIONARY_FILE_PATH, BOOKMARK_FILE_PATH} = require('./constants');
+const BUFFER_BYTES_SYZE = 64;
 const fs = require('fs');
 const path = require('path');
 const readline = require('readline');
-const {BREAK_LINE_CHAR} = require('./constants');
-
-const BUFFER_BYTES_SYZE = 64;
-
-const DICTIONARY_FILE_PATH = path.resolve(__dirname, 'assets','pt-BR.dic');
-const BOOKMARK_PATH = path.resolve(__dirname, 'assets', 'bookmarks.txt');
+const {readChunk} = require('./utils');
 
 function getNextRegexpObject(currLetter) {
   let newLetter = String.fromCharCode((String(currLetter).charCodeAt(0) + 1)); //122 = 'z'
-  let regexpPattern = `\\n${newLetter}.*`;
+  let regexpPattern = `${breakLineSingleton.dic_break_line_string}${newLetter}.*`;
   return {
     letter: newLetter,
     regexp: new RegExp(regexpPattern,'gi')
@@ -33,7 +30,7 @@ async function createDictionaryBookmarks() {
       let positionObject = {
         'a': 0,
       };
-    
+
       try {
         fileStatus = fs.statSync(DICTIONARY_FILE_PATH);
         fileSize = fileStatus.size;
@@ -66,27 +63,13 @@ async function createDictionaryBookmarks() {
   });
 }
 
-function readChunk(fd, positionOffset) {
-  let destBuffer = Buffer.alloc(BUFFER_BYTES_SYZE);
-
-  return new Promise((resolve, reject) => {
-    fs.read(fd, destBuffer, 0, BUFFER_BYTES_SYZE, positionOffset, (err) => {
-      if(err) {
-        reject(err);
-      } else {
-        resolve(destBuffer.toString('utf-8'));
-      }
-    });
-  });
-}
-
 async function saveBookmarks(bookmarkObject) {
   return new Promise((resolve, reject) => {
-    if (fs.existsSync(BOOKMARK_PATH)) {
-      fs.rmSync(BOOKMARK_PATH);
+    if (fs.existsSync(BOOKMARK_FILE_PATH)) {
+      fs.rmSync(BOOKMARK_FILE_PATH);
     }
   
-    const writeStream = fs.createWriteStream(BOOKMARK_PATH, {
+    const writeStream = fs.createWriteStream(BOOKMARK_FILE_PATH, {
       encoding: 'utf-8',
       flags: 'a' //append
     });
@@ -105,7 +88,7 @@ function getBookmarks() {
       let dictionaryBookmarks = [];
   
       const rl = readline.createInterface({
-        input: fs.createReadStream(BOOKMARK_PATH),
+        input: fs.createReadStream(BOOKMARK_FILE_PATH),
         crlfDelay: Infinity
       });
       

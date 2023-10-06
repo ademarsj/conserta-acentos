@@ -1,10 +1,7 @@
-const path = require('path');
 const fs = require('fs');
 const readline = require('readline');
-const { findMisspelledWordIfExists, ROTTEN_CHAR } = require('./wrongWordFinder');
-
-const ROTTEN_FILE_PATH = path.resolve(__dirname, 'assets/', 'rotten_file.txt');
-const OUTPUT_PATH = path.resolve(__dirname, '..', 'output/', 'fixed_file.txt');
+const { findMisspelledWordIfExists } = require('./wrongWordFinder');
+const { ROTTEN_CHAR, ROTTEN_FILE_PATH, OUTPUT_PATH, breakLineSingleton } = require('./constants');
 
 function getMisspelledWords() {
   return new Promise((resolve, reject) => {
@@ -85,9 +82,9 @@ function locateAndReplaceMisspelledWords(wordsWithSuggestions) {
             }
           });
 
-          writeFile.write(currLine + '\n');
+          writeFile.write(currLine + breakLineSingleton.rot_break_line);
         } else {
-          writeFile.write(currLine + '\n');
+          writeFile.write(currLine + breakLineSingleton.rot_break_line);
         }
       });
       

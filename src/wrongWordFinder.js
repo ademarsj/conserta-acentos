@@ -1,10 +1,4 @@
-const NON_ALPHABETICAL_CHARS = [
-  '\r','\r\n','\n', ' ', '.', '\\', 
-  '//', '{', '-', '\'', '\"', '(', ')', 
-  ':', ',', '!', '/'
-];
-
-const ROTTEN_CHAR = '�';
+const { NON_ALPHABETICAL_CHARS, ROTTEN_CHAR } = require('./constants');
 
 function getLastDelimiterIndex(line) {
   let lastIndexFound = -1;

@@ -1,13 +1,31 @@
-const os = require('os');
 
-let BREAK_LINE_CHAR = '\n';
+const path = require('path');
+const BreakLine = require('./breakLineSingleton');
 
-if (os.platform() == 'win32') {
-  BREAK_LINE_CHAR = '\r\n';
-} else if (os.platform() == 'darwin') {
-  BREAK_LINE_CHAR = '\r';
-}
+const REGEXP_HAVE_ACCENTUATION = /[áàâãéèêíïóôõöúçñ]/gi;
+
+const NON_ALPHABETICAL_CHARS = [
+  '\r','\r\n','\n', ' ', '.', '\\', 
+  '//', '{', '-', '\'', '\"', '(', ')', 
+  ':', ',', '!', '/'
+];
+
+const ROTTEN_CHAR = '�';
+
+const DICTIONARY_FILE_PATH = path.resolve(__dirname, 'assets','pt-BR.dic');
+const BOOKMARK_FILE_PATH = path.resolve(__dirname, 'assets', 'bookmarks.txt');
+const ROTTEN_FILE_PATH = path.resolve(__dirname, 'assets/', 'rotten_file.txt');
+const OUTPUT_PATH = path.resolve(__dirname, '..', 'output/', 'fixed_file.txt');
+
+let breakLineSingleton = new BreakLine(DICTIONARY_FILE_PATH, ROTTEN_FILE_PATH);
 
 module.exports = {
-  BREAK_LINE_CHAR
+  REGEXP_HAVE_ACCENTUATION,
+  NON_ALPHABETICAL_CHARS,
+  ROTTEN_CHAR,
+  DICTIONARY_FILE_PATH,
+  BOOKMARK_FILE_PATH,
+  ROTTEN_FILE_PATH,
+  OUTPUT_PATH,
+  breakLineSingleton
 }

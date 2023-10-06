@@ -1,15 +1,12 @@
-const { BREAK_LINE_CHAR } = require('./constants');
+const { ROTTEN_CHAR, breakLineSingleton, REGEXP_HAVE_ACCENTUATION } = require('./constants');
 const { getBookmarks, getWordsByBookmark } = require('./dictionaryBookmarks');
-const { ROTTEN_CHAR } = require('./wrongWordFinder');
-
-const REGEXP_HAVE_ACCENTUATION = /[áàâãéèêíïóôõöúçñ]/gi;
 
 async function getSuggestions(word, wordsToSearch) {
   try {
     let regexpForWord = createRegexpByWord(word);
 
     let suggestions = [];
-    wordsToSearch.split(BREAK_LINE_CHAR).forEach(item => {
+    wordsToSearch.split(breakLineSingleton.dic_break_line).forEach(item => {
       if(item.match(regexpForWord)) {
         suggestions.push(item);
       }
