@@ -26,7 +26,7 @@ async function getSuggestions(word, wordsToSearch) {
 }
 
 function createRegexpByWord(word) {
-  let regexpPattern = word;
+  let regexpPattern = String(word);
 
   while(regexpPattern.indexOf(ROTTEN_CHAR) != -1) {
     regexpPattern = regexpPattern.replace(ROTTEN_CHAR, '.{1}');
